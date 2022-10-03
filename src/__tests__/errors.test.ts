@@ -1,41 +1,69 @@
 import { errorEventListener } from "../errors";
 
+beforeEach(() => {
+  // JSDOM doesn't clean up the DOM so we must do it manually.
+  document.body.firstChild?.remove();
+});
+
 it("uncaught exception", () => {
-  const onError = jest.fn(function onError(ev: ErrorEvent) {});
+  // Notice the `ErrorEvent` instance.
+  const onError = jest.fn(function onError(_ev: ErrorEvent) {
+    // no-op
+  });
 
   errorEventListener({ type: "error", onError });
 
   expect(onError).not.toHaveBeenCalled();
 
-  const ev = new Event("error");
-  window.dispatchEvent(ev);
+  window.dispatchEvent(new Event("error"));
 
   expect(onError).toHaveBeenCalledTimes(1);
-
-  expect(document.body.firstChild).toBeNull(); // Didn't pass a ui callback. First child is null
 });
 
 it("unhandled rejection", () => {
-  const onError = jest.fn(function onError(ev: PromiseRejectionEvent) {});
+  // Notice the `PromiseRejectionEvent` instance.
+  const onError = jest.fn(function onError(_ev: PromiseRejectionEvent) {
+    // no-op
+  });
 
-  const errorText = "an unhandled rejection occurred";
   errorEventListener({
     type: "unhandledrejection",
     onError,
-    ui: () => {
-      const el = document.createElement("div");
-      el.textContent = errorText;
-      return el;
-    },
   });
 
   expect(onError).not.toHaveBeenCalled();
 
-  const ev = new Event("unhandledrejection");
-  window.dispatchEvent(ev);
+  window.dispatchEvent(new Event("unhandledrejection"));
 
   expect(onError).toHaveBeenCalledTimes(1);
+});
 
-  expect(document.body.firstChild).toBeInstanceOf(HTMLDivElement); // Did pass a ui callback. First child is a `div` element
+it("renders a fallback ui", () => {
+  const errorText = "an unhandled rejection occurred";
+
+  // Build a fallback ui with the built-in DOM methods. When an error occurs
+  // this function will be called and the returned element appended to the `body`.
+  function ui() {
+    const el = document.createElement("div");
+    el.textContent = errorText;
+    return el;
+  }
+
+  const mockUi = jest.fn(ui);
+
+  errorEventListener({
+    type: "unhandledrejection",
+    onError: jest.fn(),
+    ui: mockUi,
+  });
+
+  expect(mockUi).not.toHaveBeenCalled();
+  expect(document.body.firstChild).toBeNull();
+
+  window.dispatchEvent(new Event("unhandledrejection"));
+
+  expect(mockUi).toHaveBeenCalledTimes(1);
+
+  expect(document.body.firstChild).toBeInstanceOf(HTMLDivElement);
   expect(document.body.firstChild?.textContent).toBe(errorText);
 });
