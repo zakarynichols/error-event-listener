@@ -3,7 +3,7 @@ import { errorEventListener } from "../errors";
 it("uncaught exception", () => {
   const onError = jest.fn(function onError(ev: ErrorEvent) {});
 
-  errorEventListener("error", onError);
+  errorEventListener({ type: "error", onError });
 
   expect(onError).not.toHaveBeenCalled();
 
@@ -19,10 +19,14 @@ it("unhandled rejection", () => {
   const onError = jest.fn(function onError(ev: PromiseRejectionEvent) {});
 
   const errorText = "an unhandled rejection occurred";
-  errorEventListener("unhandledrejection", onError, () => {
-    const el = document.createElement("div");
-    el.textContent = errorText;
-    return el;
+  errorEventListener({
+    type: "unhandledrejection",
+    onError,
+    ui: () => {
+      const el = document.createElement("div");
+      el.textContent = errorText;
+      return el;
+    },
   });
 
   expect(onError).not.toHaveBeenCalled();

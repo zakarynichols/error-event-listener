@@ -7,15 +7,15 @@
  * @param onError Error event handler with accessible error event object
  * @param ui Supply a function that returns a single DOM element to render as a fallback UI
  */
-export function errorEventListener<K extends keyof ErrorEventMap>(
-  type: K,
-  onError: (ev: ErrorEventMap[K]) => void,
-  ui?: () => Element
-) {
-  window.addEventListener(type, (ev) => {
-    onError(ev);
-    if (ui !== undefined) {
-      const el = ui();
+export function errorEventListener<K extends keyof ErrorEventMap>(params: {
+  type: K;
+  onError: (ev: ErrorEventMap[K]) => void;
+  ui?: () => Element;
+}) {
+  window.addEventListener(params.type, (ev) => {
+    params.onError(ev);
+    if (params.ui !== undefined) {
+      const el = params.ui();
       document.body.replaceChildren(el);
     }
   });
