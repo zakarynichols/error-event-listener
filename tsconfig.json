@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "ES6"],
+    "lib": ["DOM", "ESNext"],
     "strict": true,
-    "module": "CommonJS",
+    "module": "ESNext",
     "outDir": "./dist",
     "moduleResolution": "node"
   },
