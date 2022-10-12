@@ -5,7 +5,6 @@ The only requirement is to register the listener in module scope, not function
 ```ts
 /*
     Register the listener at the highest level of the app, preferably outside the root app. 
-
     If using React, make sure to register outside `root.render`.
 */
 errorEventListener({

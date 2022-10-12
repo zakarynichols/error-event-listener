@@ -14,10 +14,9 @@ export function errorEventListener<K extends keyof ErrorEventMap>(params: {
 }) {
   window.addEventListener(params.type, (ev) => {
     params.onError(ev);
-    if (params.ui !== undefined) {
-      const el = params.ui();
-      document.body.replaceChildren(el);
-    }
+    if (params.ui === undefined) return;
+    const el = params.ui();
+    document.body.replaceChildren(el);
   });
 }
 

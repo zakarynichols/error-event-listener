@@ -11,6 +11,7 @@ it("uncaught exception", () => {
     // no-op
   });
 
+  // Register exception listener
   errorEventListener({ type: "error", onError });
 
   expect(onError).not.toHaveBeenCalled();
@@ -26,6 +27,7 @@ it("unhandled rejection", () => {
     // no-op
   });
 
+  // Register rejection listener
   errorEventListener({
     type: "unhandledrejection",
     onError,
