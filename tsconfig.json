@@ -3,7 +3,8 @@
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "module": "ESNext",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "moduleResolution": "node"
   },
   "include": ["./src"],
   "exclude": ["node_modules"]
