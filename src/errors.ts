@@ -1,5 +1,5 @@
 /**
- * Register a global error event listener. Can be used with any JavaScript application to catch all exceptions/rejections.
+ * Register a global error event listener. Can be used with any browser JavaScript application to catch all exceptions/rejections.
  *
  * If using React, make sure to register this function in module scope outside of `root.render`.
  *
@@ -20,5 +20,5 @@ export function errorEventListener<K extends keyof ErrorEventMap>(params: {
   });
 }
 
-// Pick the keys from the window event map we want to use.
+// Pick the keys from the window event map.
 type ErrorEventMap = Pick<WindowEventMap, "error" | "unhandledrejection">;

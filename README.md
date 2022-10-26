@@ -1,6 +1,6 @@
 # Error Event Listener
 
-Type-safe way to listen for all exceptions/rejections and render an optional fallback ui when a fatal error occurs.
+Type-safe way to listen for all exceptions/rejections in the browser and render an optional fallback ui when a fatal error occurs.
 
 [![codecov](https://codecov.io/gh/zakarynichols/error-event-listener/branch/master/graph/badge.svg)](https://codecov.io/gh/zaknicholsdev/error-event-listener)
 
