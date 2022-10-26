@@ -4,8 +4,10 @@
     "strict": true,
     "module": "ESNext",
     "outDir": "./dist",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "declaration": true,
+    "emitDeclarationOnly": false
   },
   "include": ["./src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*__tests__"]
 }
